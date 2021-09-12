@@ -13,4 +13,8 @@ public class Number {
         int REDIX=10;//redix 10 is for decimal number, for hexa use redix 16
         return Character.forDigit(val, REDIX);
     }
+
+    public void setHide(boolean hide) {
+        isHide = hide;
+    }
 }

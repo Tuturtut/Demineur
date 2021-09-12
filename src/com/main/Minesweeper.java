@@ -31,9 +31,6 @@ public class Minesweeper {
 
         this.hideMine = hideMine;
 
-        this.fillTab(grass);
-        this.setMineRandomly();
-        this.mineNumberCounter(this.getTab());
     }
 
     public char[][] getTab() {
@@ -46,7 +43,12 @@ public class Minesweeper {
         }
     }
 
-    public void setMineRandomly(){
+    public void setGame(int[]cord){
+        this.fillTab(grass);
+        this.setMineRandomly(cord);
+        this.mineNumberCounter(this.getTab());
+    }
+    public void setMineRandomly(int[]baseCoordinate){
         Random rn = new Random();
 
         while (mineCounter < mineNumber){
@@ -54,9 +56,11 @@ public class Minesweeper {
             int y = rn.nextInt(fieldSize);
             int[] cord = {x, y};
 
-            if(checkIfMine(cord)){
-                setMine(cord, mine);
-                mineCounter += 1;
+                if (checkIfMine(cord) && !Arrays.equals(cord, baseCoordinate)) {
+
+                    setMine(cord, mine);
+                    mineCounter += 1;
+
             }
         }
     }
@@ -65,49 +69,43 @@ public class Minesweeper {
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[i].length; j++) {
                 if (tab[i][j] != mine) {
-                    int mineConter = 0;
-
-                    // TODO: 05/09/2021 Regler les probleme de 'out of bounds' Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 10
-                    //	at com.main.Minesweeper.mineNumberCounter(Minesweeper.java:78)
-                    //	at com.main.Minesweeper.<init>(Minesweeper.java:34)
-                    //	at com.main.Main.main(Main.java:6)
+                    int mineCounter = 0;
 
                     int[] cord = {i, j};
 
                     try {
-                        if (tab[i - 1][j - 1] == mine) mineConter++;
+                        if (tab[i - 1][j - 1] == mine) mineCounter++;
                     } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
 
                     try {
-
-                        if (tab[i - 1][j] == mine) mineConter++;
+                        if (tab[i - 1][j] == mine) mineCounter++;
                     } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
 
                     try {
-                    if (tab[i - 1][j + 1] == mine) mineConter++;
+                    if (tab[i - 1][j + 1] == mine) mineCounter++;
                     } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
 
                     try {
-                        if (tab[i][j - 1] == mine) mineConter++;
+                        if (tab[i][j - 1] == mine) mineCounter++;
                     } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
 
                     try {
-                        if (tab[i][j + 1] == mine) mineConter++;
+                        if (tab[i][j + 1] == mine) mineCounter++;
                     } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
 
                     try {
-                        if (tab[i + 1][j - 1] == mine) mineConter++;
+                        if (tab[i + 1][j - 1] == mine) mineCounter++;
                     } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
 
                     try {
-                        if (tab[i + 1][j] == mine) mineConter++;
+                        if (tab[i + 1][j] == mine) mineCounter++;
                     } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
 
                     try {
-                        if (tab[i + 1][j + 1] == mine) mineConter++;
+                        if (tab[i + 1][j + 1] == mine) mineCounter++;
                     } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
 
-                    Number number = new Number(hideNumber, mineConter);
+                    Number number = new Number(hideNumber, mineCounter);
                     setMine(cord, number.getCharVal());
 
                 }
