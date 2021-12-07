@@ -33,6 +33,10 @@ public class Minesweeper {
 
     }
 
+    public int getFieldSize() {
+        return fieldSize;
+    }
+
     public char[][] getTab() {
         return tab;
     }
@@ -63,6 +67,62 @@ public class Minesweeper {
 
             }
         }
+    }
+
+    // pos:
+    // 1 2 3
+    // 4   6
+    // 7 8 9
+    public int[] getNextCord(int[] cord, int pos){
+        switch (pos) {
+            case 1 -> {
+                cord[0] -= 1;
+                cord[1] -= 1;
+            }
+            case 2 -> cord[0] -= 1;
+            case 3 -> {
+                cord[0] -= 1;
+                cord[1] += 1;
+            }
+            case 4 -> cord[1] -= 1;
+            case 6 -> cord[1] += 1;
+
+            case 7 -> {
+                cord[0] += 1;
+                cord[1] -= 1;
+            }
+            case 8 -> cord[0] += 1;
+            case 9 -> {
+                cord[0] += 1;
+                cord[1] += 1;
+            }
+        }
+        cord = checkOutsideCord(cord, getFieldSize());
+        return cord;
+    }
+
+    public int[] checkOutsideCord(int[] cord, int fieldSize){
+        if (cord[0] < 0) cord[0] = 0;
+        if (cord[1] < 0) cord[1] = 0;
+        if (cord[0] > fieldSize) cord[0] = 0;
+        if (cord[1] > fieldSize) cord[1] = 0;
+        return cord;
+    }
+
+    public void caseUnveil(int [] cord){
+
+    }
+
+    // TODO: 07/12/2021 Fix modification problem with the Array 
+    public int mineCounter(int[] cord){
+        mineCounter = 0;
+        for (int i = 0; i <= 9; i++) {
+            if (getCase(getNextCord(cord, i)) == mine) {
+                mineCounter += 1;
+                System.out.println("+ 1");
+            }
+        }
+        return mineCounter;
     }
 
     public void mineNumberCounter(char[][]tab){
@@ -117,6 +177,9 @@ public class Minesweeper {
         return this.tab[cord[0]][cord[1]] == grass;
     }
 
+    public char getCase(int[] cord){
+        return getTab()[cord[0]][cord[1]];
+    }
 
     public void setMine(int[]cord, char val){
         this.getTab()[cord[0]][cord[1]] = val;
