@@ -109,6 +109,7 @@ public class Minesweeper {
         return cord;
     }
 
+    // TODO: 09/12/2021 Gerer la decouverte des cases en fonction d'une coordonée
     public void caseUnveil(int [] cord){
 
     }
