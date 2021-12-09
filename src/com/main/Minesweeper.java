@@ -85,14 +85,14 @@ public class Minesweeper {
                 cord[1] += 1;
             }
             case 4 -> cord[1] -= 1;
-            case 6 -> cord[1] += 1;
+            case 5 -> cord[1] += 1;
 
-            case 7 -> {
+            case 6 -> {
                 cord[0] += 1;
                 cord[1] -= 1;
             }
-            case 8 -> cord[0] += 1;
-            case 9 -> {
+            case 7 -> cord[0] += 1;
+            case 8 -> {
                 cord[0] += 1;
                 cord[1] += 1;
             }
@@ -113,18 +113,26 @@ public class Minesweeper {
 
     }
 
-    // TODO: 07/12/2021 Fix modification problem with the Array 
+    // TODO: 09/12/2021 Fix modification problem with the Array
     public int mineCounter(int[] cord){
+        int[]lastCord = cord.clone();
+        char val;
         mineCounter = 0;
-        for (int i = 0; i <= 9; i++) {
-            if (getCase(getNextCord(cord, i)) == mine) {
+        for (int i = 0; i < 9; i++) {
+            val = getCase(getNextCord(cord, i + 1));
+            if (val == mine) {
                 mineCounter += 1;
                 System.out.println("+ 1");
+                System.out.println(Arrays.toString(cord));
+                cord = lastCord;
+                System.out.println(Arrays.toString(cord));
+                System.out.println();
             }
         }
         return mineCounter;
     }
 
+    // TODO: 09/12/2021 Modify the mineNumberCounter method with new methods
     public void mineNumberCounter(char[][]tab){
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[i].length; j++) {
@@ -186,7 +194,13 @@ public class Minesweeper {
     }
 
     public void printTab(){
+        String str = "_";
+        System.out.println(" " + str.repeat(getTab().length * 3) );
+
         for (int i = 0; i < getTab().length; i++) {
+
+            System.out.print("|");
+
             for (int j = 0; j < getTab()[i].length; j++) {
                 if(getTab()[i][j] == mine && hideMine) System.out.print(grass + "  ");
                 else if(getTab()[i][j] != mine && getTab()[i][j] != grass && hideNumber){
@@ -195,8 +209,9 @@ public class Minesweeper {
 
                 else{System.out.print(getTab()[i][j] + "  ");}
             }
-            System.out.println();
+            System.out.println("|");
         }
-        System.out.println();
+        str = "-";
+        System.out.println(" " + str.repeat(getTab().length * 3) );
     }
 }

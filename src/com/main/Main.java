@@ -9,7 +9,6 @@ public class Main {
         game1.setGame(new int[]{0, 0});
         game1.printTab();
         int [] test = {1 ,1};
-        System.out.println(Arrays.toString(game1.getNextCord(test, 4)));
-        System.out.println(Arrays.toString(test));
+        System.out.println(game1.mineCounter(test));
     }
 }
