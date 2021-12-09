@@ -62,7 +62,7 @@ public class Minesweeper {
 
                 if (checkIfMine(cord) && !Arrays.equals(cord, baseCoordinate)) {
 
-                    setMine(cord, mine);
+                    setVal(cord, mine);
                     mineCounter += 1;
 
             }
@@ -113,69 +113,38 @@ public class Minesweeper {
 
     }
 
-    // TODO: 09/12/2021 Fix modification problem with the Array
     public int mineCounter(int[] cord){
-        int[]lastCord = cord.clone();
-        char val;
-        mineCounter = 0;
-        for (int i = 0; i < 9; i++) {
-            val = getCase(getNextCord(cord, i + 1));
-            if (val == mine) {
-                mineCounter += 1;
-                System.out.println("+ 1");
-                System.out.println(Arrays.toString(cord));
-                cord = lastCord;
-                System.out.println(Arrays.toString(cord));
-                System.out.println();
+        System.out.println(Arrays.toString(cord));
+
+        if (getTab()[cord[0]][cord[1]] != mine) {
+            int[] lastCord = cord.clone();
+            char val;
+            mineCounter = 0;
+            for (int i = 0; i < 9; i++) {
+                val = getCase(getNextCord(cord, i));
+                if (val == mine) {
+                    mineCounter += 1;
+                }
+                cord = lastCord.clone();
             }
+            return mineCounter;
         }
-        return mineCounter;
+        return -1;
     }
 
-    // TODO: 09/12/2021 Modify the mineNumberCounter method with new methods
+    // TODO: 09/12/2021 Resolve Index error with Array
     public void mineNumberCounter(char[][]tab){
+        int[] cord;
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[i].length; j++) {
-                if (tab[i][j] != mine) {
-                    int mineCounter = 0;
+                cord = new int[]{i, j};
+                System.out.println(Arrays.toString(cord));
+                int mineNumber = mineCounter(new int[]{i, j});
 
-                    int[] cord = {i, j};
+                if (mineNumber != -1) {
 
-                    try {
-                        if (tab[i - 1][j - 1] == mine) mineCounter++;
-                    } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
-
-                    try {
-                        if (tab[i - 1][j] == mine) mineCounter++;
-                    } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
-
-                    try {
-                    if (tab[i - 1][j + 1] == mine) mineCounter++;
-                    } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
-
-                    try {
-                        if (tab[i][j - 1] == mine) mineCounter++;
-                    } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
-
-                    try {
-                        if (tab[i][j + 1] == mine) mineCounter++;
-                    } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
-
-                    try {
-                        if (tab[i + 1][j - 1] == mine) mineCounter++;
-                    } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
-
-                    try {
-                        if (tab[i + 1][j] == mine) mineCounter++;
-                    } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
-
-                    try {
-                        if (tab[i + 1][j + 1] == mine) mineCounter++;
-                    } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
-
-                    Number number = new Number(hideNumber, mineCounter);
-                    setMine(cord, number.getCharVal());
-
+                    Number number = new Number(hideNumber, mineNumber);
+                    setVal(cord, number.getCharVal());
                 }
             }
         }
@@ -189,7 +158,7 @@ public class Minesweeper {
         return getTab()[cord[0]][cord[1]];
     }
 
-    public void setMine(int[]cord, char val){
+    public void setVal(int[]cord, char val){
         this.getTab()[cord[0]][cord[1]] = val;
     }
 
